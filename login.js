@@ -23,9 +23,16 @@ async function login(){
             }
         });
 
-        if (api.ok) {
+        if (api.ok){
             let response = await api.json(); 
             console.log(response);
-            alert("Login com efetuado com sucesso")
+            alert("Login efetuado com sucesso")
+            localStorage.setItem("user", JSON.stringify(response))
+            getUserData()
+            return
         }
+        let responseError = await api.json()
+        console.log(responseError)
         }
+
+        
