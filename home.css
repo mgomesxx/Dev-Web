@@ -92,3 +92,15 @@ body {
     margin-top: 100px;
     margin-left: 100px;
 }
+
+.login {
+    padding:15px 45px ;
+    background: rgb(4,4,82);
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: all 0.5s;
+}
+.login:hover{
+    background: rgb(6, 6, 117);
+}

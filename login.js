@@ -1,38 +1,41 @@
 async function login(){
-    let email = document.getElementById("email").value
-    let senha = document.getElementById("senha").value
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('senha').value;
 
-    let url = "https://go-wash-api.onrender.com/api/login"
 
-    if(email =='' || senha == ""){
-        alert("Campo Obrigatórios!")
-        return
+
+    let user = {
+        email: email,
+        password: password,
+        user_type_id: 1
     }
 
-    let parametros = 
-    {
-        email: email,
-        password: senha,
-        user_type_id: 1}
-  
-        let api = await fetch(url, {
-            method: "POST",
-            body: JSON.stringify(parametros),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
+    let url = "https://go-wash-api.onrender.com/api/login";
 
-        if (api.ok){
-            let response = await api.json(); 
-            console.log(response);
-            alert("Login efetuado com sucesso")
-            localStorage.setItem("user", JSON.stringify(response))
-            getUserData()
-            return
-        }
-        let responseError = await api.json()
-        console.log(responseError)
-        }
+    let response =  await fetch(url,{
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: {
+            'Content-Type': 'application/json'
+        } 
+    })
 
+    let api  = await response.json();
+
+    if (response.ok){
+        localStorage.setItem('token', api.access_token);
+        localStorage.setItem('user', JSON.stringify(api.user));
+        console.log(api.user)
         
+        alert("Login realizado com sucesso!");
+        localStorage.setItem("logado", "true");
+        window.location.href = "../html/listagem.html";
+
+    }else if(response.status === 401){
+        alert("Usuário não está ativo!")
+        console.log(response)
+
+    }else if(response.status === 404){
+        alert("Usuário não foi encontrado!")
+    }
+}
